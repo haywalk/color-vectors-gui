@@ -36,6 +36,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 // File/Image IO imports
 import java.io.File;
@@ -52,6 +54,9 @@ import java.awt.image.BufferedImage;
  */
 public class MatrixGUI extends Application
 {
+    // Stage
+    private Stage mainStage;
+    
     // Store the images
     private WritableImage originalImage;
     private WritableImage transformedImage;
@@ -82,8 +87,12 @@ public class MatrixGUI extends Application
          * Initialize instance variables
          */
         
+        // Main window
+        mainStage = stage;
+        
         // Path field
-        loadPath = new TextField("C:\\Users\\Hayden Walker\\Desktop\\cat.jpg");
+        loadPath = new TextField("");
+        loadPath.setEditable(false);
         
         // Matrix field
         matrixField = new TextField[3][3];
@@ -113,10 +122,10 @@ public class MatrixGUI extends Application
          */
         
         // Image label
-        Label loadLabel = new Label("Enter path to JPEG image:");
+        Label loadLabel = new Label("Select a JPEG image:");
         
         // Image-loading button
-        Button loadButton = new Button("Load");
+        Button loadButton = new Button("Browse");
         loadButton.setOnAction(this::loadImage);
         loadButton.setMaxWidth(1000);
         
@@ -199,17 +208,17 @@ public class MatrixGUI extends Application
         
         // Add bottom label
         pane.add(messageLabel, 0, 8, 3, 1);
-        
+                
         // Create and set up scene and stage
         Scene scene = new Scene(pane, 400, 520);
-        stage.setTitle("Linear Transformations on Colours");
-        stage.setScene(scene);
+        mainStage.setTitle("Linear Transformations on Colours");
+        mainStage.setScene(scene);
         
         // Make window non-resizable
-        stage.setResizable(false);
+        mainStage.setResizable(false);
 
         // Show the Stage (window)
-        stage.show();
+        mainStage.show();
     }
     
     /**
@@ -284,15 +293,23 @@ public class MatrixGUI extends Application
      */
     private void loadImage(ActionEvent event)
     {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+            new ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png")
+        );
+
+        File inputFile = fileChooser.showOpenDialog(mainStage);
+
         // Store file and image
-        File inputFile;
+        //File inputFile;
         BufferedImage image;
         
         // Get path
-        String path = loadPath.getCharacters().toString();
+        loadPath.setText(inputFile.getAbsolutePath());
         
         // Open the input file
-        inputFile = new File(path);
+        //inputFile = new File(path);
 
         try {
             // Read the image from the file
