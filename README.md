@@ -5,6 +5,4 @@ You can read about the original program and results
 
 ## Usage
 
-This program is still a work in progress and I haven't even got a proper build yet. It requires
-JavaFX and its associated compile and run commands. The
-main class is `MatrixGUI`.
+This program is still a work in progress. To download the source code along with a runnable JAR file, see the "releases" tab.
